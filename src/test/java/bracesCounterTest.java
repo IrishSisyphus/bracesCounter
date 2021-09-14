@@ -1,5 +1,6 @@
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 
@@ -20,37 +21,37 @@ public class bracesCounterTest {
     @Test
     public void getOpeningBraceTypeIsInvalidForClosingBracket() {
         String brace = ")";
-        assertTrue(bracesCounter.getOpeningBraceType(brace.charAt(0)) == bracesCounter.INVALID);
+        assertEquals(bracesCounter.getOpeningBraceType(brace.charAt(0)), bracesCounter.INVALID);
     }
 
     @Test
     public void getOpeningBraceTypeIsInvalidForClosingExceptionBracket() {
         String brace = "]";
-        assertTrue(bracesCounter.getOpeningBraceType(brace.charAt(0)) == bracesCounter.INVALID);
+        assertEquals(bracesCounter.getOpeningBraceType(brace.charAt(0)), bracesCounter.INVALID);
     }
 
     @Test
     public void getOpeningBraceTypeIsInvalidForClosingCurlyBracket() {
         String brace = "}";
-        assertTrue(bracesCounter.getOpeningBraceType(brace.charAt(0)) == bracesCounter.INVALID);
+        assertEquals(bracesCounter.getOpeningBraceType(brace.charAt(0)), bracesCounter.INVALID);
     }
 
     @Test
     public void getOpeningBraceTypeIsValidForOpeningBracket() {
         String brace = "(";
-        assertTrue(bracesCounter.getOpeningBraceType(brace.charAt(0)) == 0);
+        assertEquals(bracesCounter.getOpeningBraceType(brace.charAt(0)), 0);
     }
 
     @Test
     public void getOpeningBraceTypeIsValidForOpeningExceptionBracket() {
         String brace = "[";
-        assertTrue(bracesCounter.getOpeningBraceType(brace.charAt(0)) == 1);
+        assertEquals(bracesCounter.getOpeningBraceType(brace.charAt(0)), 1);
     }
 
     @Test
     public void getOpeningBraceTypeIsValidForOpeningCurlyBracket() {
         String brace = "{";
-        assertTrue(bracesCounter.getOpeningBraceType(brace.charAt(0)) == 2);
+        assertEquals(bracesCounter.getOpeningBraceType(brace.charAt(0)), 2);
     }
 
     @Test
@@ -59,10 +60,10 @@ public class bracesCounterTest {
         String matchingOpeningCharacter =
                 bracesCounter.OPENINGBRACKETSLIST.get(bracesCounter.BracketType.NORMAL.ordinal());
         String matchingClosingCharacter = bracesCounter.CLOSINGBRACKETSLIST.get(bracesCounter.BracketType.NORMAL.ordinal());
-        assertTrue(bracesCounter.findCorrespondingClosingBracket(braces,
+        assertEquals(bracesCounter.findCorrespondingClosingBracket(braces,
                 matchingOpeningCharacter,
                 matchingClosingCharacter,
-                1) == -1);
+                1), -1);
     }
 
     @Test
@@ -71,10 +72,10 @@ public class bracesCounterTest {
         String matchingOpeningCharacter =
                 bracesCounter.OPENINGBRACKETSLIST.get(bracesCounter.BracketType.NORMAL.ordinal());
         String matchingClosingCharacter = bracesCounter.CLOSINGBRACKETSLIST.get(bracesCounter.BracketType.NORMAL.ordinal());
-        assertTrue(bracesCounter.findCorrespondingClosingBracket(braces,
-                        matchingOpeningCharacter,
-                        matchingClosingCharacter,
-                1) == 3);
+        assertEquals(bracesCounter.findCorrespondingClosingBracket(braces,
+                matchingOpeningCharacter,
+                matchingClosingCharacter,
+                1), 3);
     }
 
     @Test
@@ -89,10 +90,10 @@ public class bracesCounterTest {
         String matchingOpeningCharacter =
                 bracesCounter.OPENINGBRACKETSLIST.get(bracesCounter.BracketType.SQUARE.ordinal());
         String matchingClosingCharacter = bracesCounter.CLOSINGBRACKETSLIST.get(bracesCounter.BracketType.SQUARE.ordinal());
-        assertTrue(bracesCounter.findCorrespondingClosingBracket(braces,
+        assertEquals(bracesCounter.findCorrespondingClosingBracket(braces,
                 matchingOpeningCharacter,
                 matchingClosingCharacter,
-                1) == 3);
+                1), 3);
     }
 
     @Test
@@ -106,10 +107,10 @@ public class bracesCounterTest {
         String matchingOpeningCharacter =
                 bracesCounter.OPENINGBRACKETSLIST.get(bracesCounter.BracketType.CURLY.ordinal());
         String matchingClosingCharacter = bracesCounter.CLOSINGBRACKETSLIST.get(bracesCounter.BracketType.CURLY.ordinal());
-        assertTrue(bracesCounter.findCorrespondingClosingBracket(braces,
+        assertEquals(bracesCounter.findCorrespondingClosingBracket(braces,
                 matchingOpeningCharacter,
                 matchingClosingCharacter,
-                1) == 7);
+                1), 7);
     }
 
     @Test
@@ -127,7 +128,7 @@ public class bracesCounterTest {
                 matchingOpeningCharacter,
                 matchingClosingCharacter,
                 1);
-        assertTrue(result == 17);
+        assertEquals(result, 17);
     }
 
     @Test
@@ -145,25 +146,24 @@ public class bracesCounterTest {
                 matchingOpeningCharacter,
                 matchingClosingCharacter,
                 19);
-        assertTrue(result == 19);
+        assertEquals(result, 19);
     }
 
     @Test
     public void countBracesInvalidAsUnevenBraces() {
         String braces = "({)";
-        assertTrue(bracesCounter.count(braces) == bracesCounter.INVALID);
+        assertEquals(bracesCounter.count(braces), bracesCounter.INVALID);
     }
 
     @Test
     public void countBracesValidEquals1() {
         String braces = "()";
-        assertTrue(bracesCounter.count(braces) == 1);
+        assertEquals(bracesCounter.count(braces), 1);
     }
 
     @Test
     public void countBracesRobustTest() {
         String braces = "({[][]}())[()]({[]})";
-        int count = bracesCounter.count(braces);
-        assertTrue(bracesCounter.count(braces) == 10);
+        assertEquals(bracesCounter.count(braces), 10);
     }
 }

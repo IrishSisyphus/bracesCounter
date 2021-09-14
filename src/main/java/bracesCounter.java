@@ -6,47 +6,47 @@ public class bracesCounter {
 
     public static final int INVALID = -1;
 
-    public static enum BracketType {
+    public enum BracketType {
         NORMAL,
         SQUARE,
         CURLY
     }
 
-    public static final List<String> OPENINGBRACKETSLIST = new ArrayList<String>(Arrays.asList("(","[","{"));
-    public static final List<String> CLOSINGBRACKETSLIST = new ArrayList<String>(Arrays.asList(")","]","}"));
+    public static final List<String> OPENINGBRACKETSLIST = new ArrayList<>(Arrays.asList("(","[","{"));
+    public static final List<String> CLOSINGBRACKETSLIST = new ArrayList<>(Arrays.asList(")","]","}"));
 
     public static int count(String braces) {
-        int count = 0;
         if(isUnevenNumberOfBraces(braces)) {
             return INVALID;
-        } else {
-            int stringLowerIndex = 0;
-            while (stringLowerIndex < braces.length()) {
-                int openingCharacterType = getOpeningBraceType(braces.charAt(stringLowerIndex));
-                if (openingCharacterType != INVALID) {
-                    String matchingOpeningCharacter = OPENINGBRACKETSLIST.get(openingCharacterType);
-                    String matchingClosingCharacter = CLOSINGBRACKETSLIST.get(openingCharacterType);
-                    int stringUpperIndex = findCorrespondingClosingBracket(braces,
-                            matchingOpeningCharacter,
-                            matchingClosingCharacter,
-                            stringLowerIndex + 1);
-                    if (stringUpperIndex != INVALID) {
-                        // is Upper Index the next index after the Lower Index
-                        if (stringUpperIndex == stringLowerIndex + 1) {
-                            count += 1;
-                         } else {
-                            count += 1 + count(braces.substring(stringLowerIndex + 1, stringUpperIndex));
-                        }
-                        stringLowerIndex = stringUpperIndex + 1;
-                    } else {
-                        return INVALID;
+        }
+
+        int count = 0;
+        int stringLowerIndex = 0;
+        while (stringLowerIndex < braces.length()) {
+            int openingCharacterType = getOpeningBraceType(braces.charAt(stringLowerIndex));
+            if (openingCharacterType != INVALID) {
+                String matchingOpeningCharacter = OPENINGBRACKETSLIST.get(openingCharacterType);
+                String matchingClosingCharacter = CLOSINGBRACKETSLIST.get(openingCharacterType);
+                int stringUpperIndex = findCorrespondingClosingBracket(braces,
+                        matchingOpeningCharacter,
+                        matchingClosingCharacter,
+                        stringLowerIndex + 1);
+                if (stringUpperIndex != INVALID) {
+                    // is Upper Index the next index after the Lower Index
+                    if (stringUpperIndex == stringLowerIndex + 1) {
+                        count += 1;
+                     } else {
+                        count += 1 + count(braces.substring(stringLowerIndex + 1, stringUpperIndex));
                     }
+                    stringLowerIndex = stringUpperIndex + 1;
                 } else {
                     return INVALID;
                 }
+            } else {
+                return INVALID;
             }
-            return  count;
         }
+        return  count;
     }
 
     public static int findCorrespondingClosingBracket(String braces,
@@ -75,14 +75,11 @@ public class bracesCounter {
     }
 
     public static int getOpeningBraceType(char brace) {
-        if(brace == '(') {
-            return BracketType.NORMAL.ordinal();
-        } else if(brace == '[') {
-            return BracketType.SQUARE.ordinal();
-        } else if(brace == '{') {
-            return BracketType.CURLY.ordinal();
-        } else {
-            return INVALID;
+        switch(brace) {
+            case '(': return BracketType.NORMAL.ordinal();
+            case '[': return BracketType.SQUARE.ordinal();
+            case '{': return BracketType.CURLY.ordinal();
+            default: return INVALID;
         }
     }
 }
